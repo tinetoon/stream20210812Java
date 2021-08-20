@@ -10,8 +10,7 @@ public class HomeWorkApp02 {
     public static void main(String[] args) {
 
 //      Выполним Метод № 1
-        boolean checkSumResult = checkSum(7, 2); // Объявим переменную и инициализируем её значением, возвращаемым Методом № 1
-        System.out.println("Результат Метода № 1: " + checkSumResult); // Выведем в консоль результат отработки Метода № 1
+        System.out.println("Результат Метода № 1: " + checkSum(7, 2)); // Выведем в консоль результат отработки Метода № 1
 
 //      Выполним Метод № 2
         int checkNumber = -13; //Объявим переменную целого типа и инициализируем её любым значением, для последующей проверки
@@ -58,7 +57,7 @@ public class HomeWorkApp02 {
      * и вернуть false если положительное.
      */
     public static boolean positiveOrNegativeСheckReturn(int a) {
-        return a >= 0;
+        return a < 0;
     }
 
     /**
@@ -80,7 +79,9 @@ public class HomeWorkApp02 {
      * Каждый 4-й год является високосным, кроме каждого 100-го, при этом каждый 400-й – високосный.
      */
     public static boolean checkOfTheYear(double a) {
-        return (((a % 400) == 0 & a != 0) | (((a % 4) == 0 & (a % 100) != 0) & a != 0));
+        return (((a % 400) == 0) | ((a % 4) == 0 & (a % 100) != 0));
+    }
+
 //        Вариант № 1
 //        if ((a % 400) == 0) {
 //            return true;
@@ -99,6 +100,5 @@ public class HomeWorkApp02 {
 //        } else if ((a % 4) == 0 & (a % 100) != 0) {
 //            return true;
 //        } else return a != 0; // Данную конструкцию используем взамен вложенных ветвлений
-
-    }
+//    }
 }
