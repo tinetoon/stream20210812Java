@@ -22,14 +22,14 @@ public class HomeWorkApp03 {
         System.out.print("1.1 Массив заполненный случайными числами: \t\t");
         printArray(intArray01);
 
-        for (int i = 0; i < intArray01.length; i++) {
-            if (intArray01[i] == 0) {
-                intArray01[i] = 1;
-            } else intArray01[i] = 0;
-        }
+//        for (int i = 0; i < intArray01.length; i++) {
+//            if (intArray01[i] == 0) {
+//                intArray01[i] = 1;
+//            } else intArray01[i] = 0;
+//        }
 
         System.out.print("1.2 Массив замены значений на противоположные: \t");
-        printArray(intArray01);
+        printArray(replacement(intArray01));
         System.out.println();
 
 /**
@@ -38,10 +38,10 @@ public class HomeWorkApp03 {
  */
 
         int[] array100 = new int[100]; // 2.1 Объявляем массив из 100 элементов
-        for (int i = 0; i < array100.length; i++) {
-            array100[i] = (i + 1);
-        }
-
+//        for (int i = 0; i < array100.length; i++) {
+//            array100[i] = (i + 1);
+//        }
+        creatingArrayFromOneToMax(array100, 100);
         System.out.println("2.1 Элементы массива: " + array100[0] + ", " + array100[1] + " ... " + array100[99]);
         System.out.println();
 
@@ -53,11 +53,12 @@ public class HomeWorkApp03 {
         int[] arrayMultiplication = {1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1};
         System.out.print("3.1 Созданный массив: \t");
         printArray(arrayMultiplication);
-        for (int i = 0; i < arrayMultiplication.length; i++) {
-            if (arrayMultiplication[i] < 6) {
-                arrayMultiplication[i] = arrayMultiplication[i] * 2;
-            }
-        }
+//        for (int i = 0; i < arrayMultiplication.length; i++) {
+//            if (arrayMultiplication[i] < 6) {
+//                arrayMultiplication[i] = arrayMultiplication[i] * 2;
+//            }
+//        }
+        multiplicationByTwoElementsLessThanSix(arrayMultiplication);
         System.out.print("3.2 Умноженный массив: \t");
         printArray(arrayMultiplication);
         System.out.println();
@@ -70,14 +71,14 @@ public class HomeWorkApp03 {
 
         int[][] arrayCube = new int[5][5]; // Объявляем массив из 5x5 элементов
         System.out.println("4.1.1 Размер массива: " + arrayCube.length + "х" + arrayCube[arrayCube.length - 1].length);
-        for (int j = 0; j < arrayCube.length; j++) {
-            for (int i = 0; i < arrayCube[arrayCube.length - 1].length; i++) {
-                if (i == j | (i == (arrayCube.length - 1 - j))) {
-                    arrayCube[j][i] = 1;
-                }
-            }
-        }
-
+//        for (int j = 0; j < arrayCube.length; j++) {
+//            for (int i = 0; i < arrayCube[arrayCube.length - 1].length; i++) {
+//                if (i == j | (i == (arrayCube.length - 1 - j))) {
+//                    arrayCube[j][i] = 1;
+//                }
+//            }
+//        }
+        fillingInTheDiagonals(arrayCube);
         System.out.println("4.1.2 Массив:");
         printDoubleArray(arrayCube);
         System.out.println();
@@ -104,19 +105,19 @@ public class HomeWorkApp03 {
         fillArray(arrayMinMax, minValue, maxValue); // Инициализируем массив случайными числами
         System.out.print("6.1 Массив заполненный случайными числами: \t");
         printArray(arrayMinMax);
-
-        int min = maxValue;
-        int max = minValue;
-        for (int i = 0; i < arrayMinMax.length; i++) {
-            if (min > arrayMinMax[i]) {
-                min = arrayMinMax[i];
-            } if (max < arrayMinMax[i]) {
-                max = arrayMinMax[i];
-            }
-        }
-
-        System.out.println("6.2.1 Минимальное значение: \t" + min);
-        System.out.println("6.2.2 Максимальное значение: \t" + max);
+        findMinAndMax(arrayMinMax, minValue, maxValue);
+//        int min = maxValue;
+//        int max = minValue;
+//        for (int i = 0; i < arrayMinMax.length; i++) {
+//            if (min > arrayMinMax[i]) {
+//                min = arrayMinMax[i];
+//            } if (max < arrayMinMax[i]) {
+//                max = arrayMinMax[i];
+//            }
+//        }
+//
+//        System.out.println("6.2.1 Минимальное значение: \t" + min);
+//        System.out.println("6.2.2 Максимальное значение: \t" + max);
         System.out.println();
 
 /**
@@ -164,7 +165,7 @@ public class HomeWorkApp03 {
         for (int i = start; i < and; i++) sum += inputArray[i];
         return sum;
     }
-//
+
 //    // Проверка суммы правых и левых элементов одномерного массива
     public static boolean arraySumCheck(int[] inputArray) {
         for (int i = 0; i < inputArray.length; i++) {
@@ -184,22 +185,6 @@ public class HomeWorkApp03 {
 
         return false;
     }
-//
-//        for (int i = 0; i < inputArray.length; i++) {
-////            do {
-
-
-
-
-////            } while (sumLeft == sumRight)
-//
-//
-////            boolean control = sumLeft == sumRight;
-//
-////            break;
-////        }
-//        return sumLeft == sumRight;
-//    }
 
     // Генератор целых случайных чисел в диапазоне от min (включительно) до max (включительно)
     public static int randomNumberRange(int min, int max) {
@@ -238,26 +223,60 @@ public class HomeWorkApp03 {
             }
             System.out.println();
         }
-
     }
 
-    // Метод для вывода таблицы двумерного массива в консоль
-    public static void printTableArray(int height, int width) {
-        String[][] table = new String[height][width];
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                table[y][x] = "[" + y + ";" + x + "]";
+    // Метод для замены 1 на 0 и наоборот
+    public static int[] replacement (int[] inputArray) {
+        for (int i = 0; i < inputArray.length; i++) {
+            if (inputArray[i] == 0) {
+                inputArray[i] = 1;
+            } else inputArray[i] = 0;
+        } return inputArray;
+    }
+
+    // Метод для создания массива, заполненного последовательными элементами
+    public static int[] creatingArrayFromOneToMax (int[] inputArray, int max) {
+//        inputArray = new int[max]; // Объявляем массив из max элементов
+        for (int i = 0; i < inputArray.length; i++) {
+            inputArray[i] = (i + 1);
+        } return inputArray;
+    }
+
+    // Метод для умножения элементов массива меньше шести на два
+    public static void multiplicationByTwoElementsLessThanSix (int[] inputArray) {
+        for (int i = 0; i < inputArray.length; i++) {
+            if (inputArray[i] < 6) {
+                inputArray[i] = inputArray[i] * 2;
+            }
+        }
+    }
+
+    // Метод для заполнения диагоналей
+    public static void fillingInTheDiagonals (int[][] inputArray) {
+        for (int j = 0; j < inputArray.length; j++) {
+            for (int i = 0; i < inputArray[inputArray.length - 1].length; i++) {
+                if (i == j | (i == (inputArray.length - 1 - j))) {
+                    inputArray[j][i] = 1;
+                }
+            }
+        }
+    }
+
+    // Метод для нахождения максимального и минимального элементов массива
+    public static void findMinAndMax (int[] inputArray, int minValue, int maxValue) {
+        int min = maxValue;
+        int max = minValue;
+        for (int i = 0; i < inputArray.length; i++) {
+            if (min > inputArray[i]) {
+                min = inputArray[i];
+            } if (max < inputArray[i]) {
+                max = inputArray[i];
             }
         }
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                System.out.print(table[y][x] + "\t");
-            }
-            System.out.println();
-        }
-
+        System.out.println("6.2.1 Минимальное значение: \t" + min);
+        System.out.println("6.2.2 Максимальное значение: \t" + max);
     }
 
 }
