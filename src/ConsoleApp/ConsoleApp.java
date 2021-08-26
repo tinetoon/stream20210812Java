@@ -34,8 +34,8 @@ public class ConsoleApp {
     public static char[][] invisibleMap;
     public static int mapWidth;
     public static int mapHeight;
-    public static int mapValueMin = 30;
-    public static int mapValueMax = 60;
+    public static int mapValueMin = 2;
+    public static int mapValueMax = 2;
     public static char mapEmpty = '_';
     public static char mapReady = '*';
     public static int levelCount = 0;
@@ -56,7 +56,7 @@ public class ConsoleApp {
         spawnPlayer();
         spawnEnemy();
 
-        while(true) {
+        while (true) {
             showMap();
             changePositionPlayer();
 
@@ -109,7 +109,7 @@ public class ConsoleApp {
         enemyAttackPoint = randomValue(enemyValueMin, enemyValueMax);
         enemyHealthPoint = randomValue(enemyValueMin, enemyValueMax);
 
-        int countEnemies = (mapWidth + mapHeight) / 4; // random math logic
+        int countEnemies = (mapWidth + mapHeight) / 2; // random math logic 3+3 / 4 = 1 / 6+6 = 12 / 4 = 3
 
         int enemyPosX;
         int enemyPosY;
@@ -119,9 +119,10 @@ public class ConsoleApp {
             do {
                 enemyPosX = random.nextInt(mapWidth);
                 enemyPosY = random.nextInt(mapHeight);
-            } while (enemyPosX == playerPositionX && enemyPosY == playerPositionY);
+                System.out.println("EnemyPos: " + enemyPosY + ":" + enemyPosX);
+            } while (enemyPosX == playerPositionX && enemyPosY == playerPositionY && !isEmpty(enemyPosX, enemyPosY));
 
-            invisibleMap[enemyPosY][enemyPosX] = enemyPoint;
+            map[enemyPosY][enemyPosX] = enemyPoint;
         }
 
         System.out.println("Create enemy. Count = " + countEnemies + " (Health " + enemyHealthPoint + ", Attack " + enemyAttackPoint + ")");
@@ -162,13 +163,36 @@ public class ConsoleApp {
 
     public static void playerNextMoveAction(int currentX, int currentY, int nextX, int nextY) {
         if (invisibleMap[nextY][nextX] == enemyPoint) {
-            playerHealthPoint -= enemyAttackPoint;
-            System.out.println("WARNING! Enemy give damage " + enemyAttackPoint + ". " + playerName + " health now " + playerHealthPoint);
+            battle();
+//            playerHealthPoint -= enemyAttackPoint;
+//            System.out.println("WARNING! Enemy give damage " + enemyAttackPoint + ". " + playerName + " health now " + playerHealthPoint);
         }
 
         invisibleMap[nextY][nextX] = mapEmpty;
         map[currentY][currentX] = mapReady;
         map[nextY][nextX] = playerPoint;
+    }
+
+    public static void battle() {
+        int battleRoundCount = 1;
+        int currentEnemyHealth = enemyHealthPoint;
+
+        System.out.println("=== START BATTLE ===");
+
+        while (playerHealthPoint > 0 && currentEnemyHealth > 0) {
+            System.out.println("=== ROUND BATTLE " + battleRoundCount + " ===");
+            System.out.println("PlayerHP: " + playerHealthPoint + " PlayerAtk: " + playerAttackPoint);
+            System.out.println("EnemyHP: " + currentEnemyHealth + " EnemyAtk: " + enemyAttackPoint);
+            currentEnemyHealth -= playerAttackPoint;
+            System.out.println("Player give damage to Enemy. Enemy HP is " + currentEnemyHealth);
+            if (currentEnemyHealth > 0) {
+                playerHealthPoint -= enemyAttackPoint;
+                System.out.println("Enemy give damage to Player. Player HP is " + playerHealthPoint);
+            }
+            battleRoundCount++;
+        }
+
+        System.out.println("=== END BATTLE ===");
     }
 
     public static boolean isValidPlayerStep(int currentX, int currentY, int nextX, int nextY) {
@@ -198,5 +222,9 @@ public class ConsoleApp {
 
     public static boolean isPlayerAlive() {
         return playerHealthPoint > 0;
+    }
+
+    public static boolean isEmpty(int x, int y) {
+        return map[y][x] == mapEmpty;
     }
 }
