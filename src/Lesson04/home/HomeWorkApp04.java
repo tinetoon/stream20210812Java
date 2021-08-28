@@ -33,8 +33,8 @@ public class HomeWorkApp04 {
     public static char monsterPoint = '#';
     public static int monsterHealthPoint;
     public static int monsterAttackPoint;
-    public static int monsterValueMin = 20;
-    public static int monsterValueMax = 30;
+    public static int monsterValueMin = 50;
+    public static int monsterValueMax = 80;
 
     // Переменные относящиеся к карте
     public static char[][] map;
@@ -52,6 +52,7 @@ public class HomeWorkApp04 {
         System.out.println("===== Create MAP =====");
         showMap();
         System.out.println("===== Map Size " + mapHeight + "x" + mapWidth + " =====");
+        stepByStep();
 
     }
 
@@ -105,12 +106,135 @@ public class HomeWorkApp04 {
             do {
                 monsterPositionX = random.nextInt(mapWidth);
                 monsterPositionY = random.nextInt(mapHeight);
-            } while (monsterPositionX == playerPositionX & monsterPositionY == playerPositionY);
+            } while (map[monsterPositionY][monsterPositionX] == '@' | map[monsterPositionY][monsterPositionX] == '#');
             map[monsterPositionY][monsterPositionX] = monsterPoint;
         }
         System.out.println("Создано врагов: " + countMonster);
         System.out.println("Очки здоровья врага: " + monsterHealthPoint);
         System.out.println("Очки урона врага: " + monsterAttackPoint);
+    }
+
+    // Метод для управления игроком
+    public static void controlPlayer() {
+        int currentX = playerPositionX;
+        int currentY = playerPositionY;
+
+        do {
+            System.out.print("Для перемещения введите цифру (вправо, нажмите " + PLAYER_MOVE_RIGHT
+                                + ", влево - " + PLAYER_MOVE_LEFT
+                                + ", вниз - " + PLAYER_MOVE_DOWN
+                                + ", вверх - " + PLAYER_MOVE_UP + "): ");
+            int playerMove = scanner.nextInt();
+            switch (playerMove) {
+                case PLAYER_MOVE_RIGHT:
+                    playerPositionX +=1;
+                    break;
+                case PLAYER_MOVE_LEFT:
+                    playerPositionX -= 1;
+                    break;
+                case PLAYER_MOVE_DOWN:
+                    playerPositionY += 1;
+                    break;
+                case PLAYER_MOVE_UP:
+                    playerPositionY -=1;
+                    break;
+            }
+        } while (goPlayerIsGood(currentY, currentX, playerPositionY, playerPositionX) == false);
+
+        goPlayer(currentY, currentX, playerPositionY, playerPositionX);
+    }
+
+    // Метод проверяющий валидность хода игрока в пределах карты
+    public static boolean goPlayerIsGood(int currentY, int currentX, int nextY, int nextX) {
+        if (nextY >= 0 && nextY < mapHeight && nextX >= 0 && nextX < mapWidth) {
+            return true;
+        } else {
+            playerPositionY = currentY;
+            playerPositionX = currentX;
+            System.out.println("Неверный ход, вы пытаетесь выйти за границу карты");
+            return false;
+        }
+    }
+
+    // Проверка жизни игрока
+    public static boolean isPlayerAlive() {
+        return playerHealthPoint > 0;
+    }
+
+    // Метод перемещения игрока по карте
+    public static void goPlayer(int currentY, int currentX, int nextY, int nextX) {
+
+        if (map[nextY][nextX] == '#') {
+            warPlayer();
+        }
+        map[currentY][currentX] = mapReady;
+        map[nextY][nextX] = playerPoint;
+    }
+
+    // Метод взаимодействия между игроком и врагами
+    public static void warPlayer() {
+        int warRound = 1;
+        int currentMonsterHealth = monsterHealthPoint;
+        int currentMonsterAttackPoint = monsterHealthPoint;
+
+        System.out.println("===== WAR =====");
+
+        while (playerHealthPoint > 0 && currentMonsterHealth > 0) {
+            System.out.println("Сражение №: " + warRound);
+            currentMonsterHealth -= playerAttackPoint;
+            currentMonsterAttackPoint = currentMonsterAttackPoint * currentMonsterHealth / monsterHealthPoint; // Уменьшение сил врага в зависимости от % очков здоровья
+            if (currentMonsterHealth > 0) {
+                System.out.println("Врагу нанесён урон, уровень здоровья врага: " + currentMonsterHealth);
+                playerHealthPoint -= currentMonsterAttackPoint;
+                System.out.println("Враг нанёс урон игроку: " + currentMonsterAttackPoint);
+            } else {
+                System.out.print("Враг повержен");
+                if (randomValue(0, 1) == 1) {
+                    System.out.println(", однако он успел нанести коварный удар в спину");
+                    System.out.println("\nИз последних сил враг нанёс урон игроку: " + currentMonsterAttackPoint);
+                    playerHealthPoint -= currentMonsterAttackPoint;
+                }
+            }
+            warRound++;
+        }
+        playerHealthPoint += randomValue(0, monsterHealthPoint); // Пополнение здоровья игрока
+        if (playerHealthPoint > 100) {
+            playerHealthPoint = 100;
+        }
+        playerAttackPoint = playerAttackPoint * playerHealthPoint / 100; // Изменение силы атаки игрока в зависимости от % здоровья
+        System.out.println("\nУровень здоровья игрока " + playerName + " : " + playerHealthPoint);
+        System.out.println("Очки здоровья игрока: " + playerHealthPoint);
+        System.out.println("===== END WAR =====");
+    }
+
+    // Метод реализующий шаги игры
+    public static void stepByStep() {
+        while (true) {
+            controlPlayer();
+            showMap();
+
+            if (!isPlayerAlive()) { //Окончание игры, если игрок мёртв
+                break;
+            }
+
+            if (endGame(playerPositionY, playerPositionX)) { //Окончание игры, если все враги мертвы
+                System.out.println("===== GAME WIN! =====");
+                break;
+            }
+
+        }
+    }
+
+    // Метод проверки завершения игры
+    public static boolean endGame(int currentY, int currentX) {
+        map[currentY][currentX] = '*';
+        for (int y = 0; y < mapHeight; y++) {
+            for (int x = 0; x < mapWidth; x++) {
+                if (map[y][x] != '*') return false;
+            }
+        }
+        map[currentY][currentX] = '@';
+        return true;
     }
 
     // Метод возвращающий любое целое число
