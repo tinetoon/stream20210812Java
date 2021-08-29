@@ -34,8 +34,8 @@ public class ConsoleApp {
     public static char[][] invisibleMap;
     public static int mapWidth;
     public static int mapHeight;
-    public static int mapValueMin = 30;
-    public static int mapValueMax = 60;
+    public static int mapValueMin = 3;
+    public static int mapValueMax = 6;
     public static char mapEmpty = '_';
     public static char mapReady = '*';
     public static int levelCount = 0;
