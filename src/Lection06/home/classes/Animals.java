@@ -9,16 +9,24 @@ package Lection06.home.classes;
 public class Animals {
 
     protected String name;
-    protected int swimmingDistance;
+    protected String type;
     protected int swimmingMaxDistance;
-    protected int runningDistance;
     protected int runningMaxDistance;
 
     // Создаём конструктор для животного
-    public Animals(String name, int swimmingMaxDistance, int runningMaxDistance) {
+    public Animals(String name, String type, int swimmingMaxDistance, int runningMaxDistance) {
         this.name = name;
+        this.type = type;
         this.swimmingMaxDistance = swimmingMaxDistance;
         this.runningMaxDistance = runningMaxDistance;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getType() {
+        return type;
     }
 
     // Метод возвращающий, какую дистанцию проплыло животное
