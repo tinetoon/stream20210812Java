@@ -2,7 +2,7 @@ package Lection06.online;
 
 import Lection06.online.model.Actor;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
+//import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 
 /**
  * Created by Aleksandr Gladkov [Anticisco]
