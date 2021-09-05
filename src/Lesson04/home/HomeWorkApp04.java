@@ -175,14 +175,16 @@ public class HomeWorkApp04 {
     public static void warPlayer() {
         int warRound = 1;
         int currentMonsterHealth = monsterHealthPoint;
-        int currentMonsterAttackPoint = monsterHealthPoint;
+        int currentMonsterAttackPoint = monsterAttackPoint;
 
         System.out.println("===== WAR =====");
 
         while (playerHealthPoint > 0 && currentMonsterHealth > 0) {
             System.out.println("Сражение №: " + warRound);
             currentMonsterHealth -= playerAttackPoint;
-            currentMonsterAttackPoint = currentMonsterAttackPoint * currentMonsterHealth / monsterHealthPoint; // Уменьшение сил врага в зависимости от % очков здоровья
+            if (currentMonsterHealth > 0) {
+                currentMonsterAttackPoint = currentMonsterAttackPoint * currentMonsterHealth / monsterHealthPoint; // Уменьшение сил врага в зависимости от % очков здоровья
+            } else currentMonsterAttackPoint = monsterHealthPoint / randomValue(10, monsterAttackPoint); // Рандомная сила врага (от 10% до 1 очка) для возможного последнего удара
             if (currentMonsterHealth > 0) {
                 System.out.println("Врагу нанесён урон, уровень здоровья врага: " + currentMonsterHealth);
                 playerHealthPoint -= currentMonsterAttackPoint;
