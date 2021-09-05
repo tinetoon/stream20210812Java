@@ -38,7 +38,12 @@ public class WindowApp extends JFrame {
     private JLabel monsterHealthPoint;
     private JLabel monsterAttackPoint;
 
-    private JPanel gameControllerPanel;
+    private JPanel playerControllerPanel;
+    private JButton btnLeft;
+    private JButton btnUp;
+    private JButton btnDown;
+    private JButton btnRight;
+
     private JPanel gameLogPanel;
 
     // Конструктор метода окна приложения
@@ -61,14 +66,18 @@ public class WindowApp extends JFrame {
         setupGameInfo(); // 2. Вызываем метод создания блока с информацией об игре
         setupPlayerInfo(); // 3. Вызываем метод создания блока с информацией об игроке
         setupMonsterInfo(); // 4. Вызываем метод создания блока с информацией о врагах
+        setupPlayerController(); // 5. Вызываем метод создания блока с кнопками управления игроком
+        setupGameLog();
 
         gui.add(gameControlPanel); // 1. Добавляем на панель интерфейса панель с кнопками
         gui.add(gameInfoPanel); // 2. Добавляем на панель интерфейса панель с информацией об игре
         gui.add(gamePlayerPanel); // 3. Добавляем на панель интерфейса панель с информацией об игроке
         gui.add(gameMonsterPanel); // 4. Добавляем на панель интерфейса панель с информацией о врагах
+        gui.add(playerControllerPanel); // 5. Добавляем на панель интерфейса панель с кнопками управления игроком
+        gui.add(gameLogPanel);
     }
 
-    // 1. Создаём блок запуска и выхода из игры
+    // 1. Создаём блок кнопок запуска и выхода из игры
     private void setupGameControl() {
         gameControlPanel = new JPanel();
         gameControlPanel.setLayout(new GridLayout(1, 1)); // Располагаем кнопки в одну строку
@@ -113,7 +122,7 @@ public class WindowApp extends JFrame {
         gamePlayerPanel.add(playerHealthPoint);
     }
 
-    // 3. Создаём блок информации о врагах:
+    // 4. Создаём блок информации о врагах:
     //      - уровень здоровья;
     //      - сила;
     private void setupMonsterInfo() {
@@ -128,12 +137,30 @@ public class WindowApp extends JFrame {
         gameMonsterPanel.add(monsterHealthPoint);
     }
 
+    // 5. Создаём блок кнопок управления игроком
     private void setupPlayerController() {
+        playerControllerPanel = new JPanel();
+//        playerControllerPanel.setLayout(new GridLayout(2, 1));
 
+        btnLeft = new JButton("Влево");
+        btnUp = new JButton("Вверх");
+        btnDown = new JButton("Вниз");
+        btnRight = new JButton("Вправо");
+
+//        playerControllerPanel.add(new JLabel("=== Управление игроком ==="));
+        playerControllerPanel.add(btnLeft);
+        playerControllerPanel.add(btnUp);
+        playerControllerPanel.add(btnDown);
+        playerControllerPanel.add(btnRight);
     }
 
-    private void setupLog() {
+    private void setupGameLog() {
+//        gameLogPanel = new JPanel();
+        gameLogPanel = new GameLog();
+        gameLogPanel.setLayout(new GridLayout(2, 1));
 
+        gameLogPanel.add(new JLabel("=== Информация о событиях ==="));
+//        gameLogPanel.add(gameLogPanel);
     }
 
     // Настройки окна
