@@ -6,6 +6,7 @@ public class Multiply {
         double b = 5;
         System.out.println("Произведение двух чисел " + a + " * " + b + " = " + multiply(a, b));
 
+
         String name = "Антон";
         int age = 39;
         System.out.printf("Имя: %s \tВозраст: %d\n", name, age);
