@@ -39,15 +39,12 @@ public class WindowApp extends JFrame {
     private JLabel monsterAttackPoint;
 
     private JPanel playerControllerPanel;
-    private JPanel playerCenterPanel;
     private JButton btnLeft;
     private JButton btnUp;
     private JButton btnDown;
     private JButton btnRight;
 
-//    private JPanel gameLogPanel;
-    private JScrollPane gameLogScrollPanel; // Панель с полями прокрутки (scroll) взамен обычного поля
-    private JTextArea gameLog; // Текстовое поле на панели лога игры
+    private JPanel gameLogPanel;
 
     // Конструктор метода окна приложения
     WindowApp() {
@@ -70,14 +67,14 @@ public class WindowApp extends JFrame {
         setupPlayerInfo(); // 3. Вызываем метод создания блока с информацией об игроке
         setupMonsterInfo(); // 4. Вызываем метод создания блока с информацией о врагах
         setupPlayerController(); // 5. Вызываем метод создания блока с кнопками управления игроком
-        setupGameLog(); // 6. Вызываем метод создания блока с информационными сообщениями
+        setupGameLog();
 
         gui.add(gameControlPanel); // 1. Добавляем на панель интерфейса панель с кнопками
         gui.add(gameInfoPanel); // 2. Добавляем на панель интерфейса панель с информацией об игре
         gui.add(gamePlayerPanel); // 3. Добавляем на панель интерфейса панель с информацией об игроке
         gui.add(gameMonsterPanel); // 4. Добавляем на панель интерфейса панель с информацией о врагах
         gui.add(playerControllerPanel); // 5. Добавляем на панель интерфейса панель с кнопками управления игроком
-        gui.add(gameLogScrollPanel, BorderLayout.SOUTH); // 6. Добавляем на панель интерфейса панель с информационными сообщениями
+        gui.add(gameLogPanel);
     }
 
     // 1. Создаём блок кнопок запуска и выхода из игры
@@ -143,35 +140,27 @@ public class WindowApp extends JFrame {
     // 5. Создаём блок кнопок управления игроком
     private void setupPlayerController() {
         playerControllerPanel = new JPanel();
-        playerCenterPanel = new JPanel();
-        playerControllerPanel.setLayout(new GridLayout(1, 3));
-        playerCenterPanel.setLayout(new GridLayout(2, 1));
+//        playerControllerPanel.setLayout(new GridLayout(2, 1));
 
-        btnLeft = new JButton("\uD83E\uDC44");
-        btnUp = new JButton("\uD83E\uDC45");
-        btnDown = new JButton("\uD83E\uDC47");
-        btnRight = new JButton("\uD83E\uDC46");
+        btnLeft = new JButton("Влево");
+        btnUp = new JButton("Вверх");
+        btnDown = new JButton("Вниз");
+        btnRight = new JButton("Вправо");
 
 //        playerControllerPanel.add(new JLabel("=== Управление игроком ==="));
         playerControllerPanel.add(btnLeft);
-        playerControllerPanel.add(playerCenterPanel);
-        playerCenterPanel.add(btnUp, BorderLayout.NORTH);
-        playerCenterPanel.add(btnDown, BorderLayout.SOUTH);
+        playerControllerPanel.add(btnUp);
+        playerControllerPanel.add(btnDown);
         playerControllerPanel.add(btnRight);
     }
 
-    // 6. Создаём блок с информационными сообщениями
     private void setupGameLog() {
-        gameLog = new JTextArea();
-        gameLogScrollPanel = new JScrollPane(gameLog);
+//        gameLogPanel = new JPanel();
+        gameLogPanel = new GameLog();
+        gameLogPanel.setLayout(new GridLayout(2, 1));
 
-        gameLog.setEditable(false);
-        gameLog.setLineWrap(true);
-    }
-
-    // Метод позволяющий отправлять в Лог записи
-    void writeLogs(String msg) {
-        gameLog.append(msg + "\n");
+        gameLogPanel.add(new JLabel("=== Информация о событиях ==="));
+//        gameLogPanel.add(gameLogPanel);
     }
 
     // Настройки окна
