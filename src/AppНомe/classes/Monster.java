@@ -1,6 +1,5 @@
 package AppНомe.classes;
 
-import App.model.Fighters;
 import AppНомe.Tools;
 
 /**

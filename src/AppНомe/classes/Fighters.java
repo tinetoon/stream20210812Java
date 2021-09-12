@@ -1,4 +1,4 @@
-package App.model;
+package AppНомe.classes;
 
 import AppНомe.Tools;
 
