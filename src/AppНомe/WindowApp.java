@@ -45,17 +45,22 @@ public class WindowApp extends JFrame {
     private JButton btnDown;
     private JButton btnRight;
 
-    private JScrollPane gameLogScrollPanel; // Панель с полями прокрутки (scroll) взамен обычного поля
-    private JTextArea gameLog; // Текстовое поле на панели лога игры
+    // Переменные, относящиеся к Логу (вынес в класс GameLog)
+//    private JScrollPane gameLogScrollPanel; // Панель с полями прокрутки (scroll) взамен обычного поля
+//    private JTextArea gameLog; // Текстовое поле на панели лога игры
+    private GameLog log;
 
     // Конструктор метода окна приложения
     WindowApp() {
 
         setupWin(); // Собираем интерфейс из блоков
         map = new GameMap(); // Создаём объект карты в виде панели
+        log = new GameLog(); // Создаём окно вывода информационных сообщений
+
         setupGui(); // Создаём область графического интерфейса
         add(gui, BorderLayout.EAST); // Добавляем графический интерфейс в правую (восточную) часть окна
         add(map); // Добавляем панель карты на оставшуюся часть окна
+
         setVisible(true); // Делаем окно видимым
     }
 
@@ -69,14 +74,15 @@ public class WindowApp extends JFrame {
         setupPlayerInfo(); // 3. Вызываем метод создания блока с информацией об игроке
         setupMonsterInfo(); // 4. Вызываем метод создания блока с информацией о врагах
         setupPlayerController(); // 5. Вызываем метод создания блока с кнопками управления игроком
-        setupGameLog(); // 6. Вызываем метод создания блока с информационными сообщениями
+//        setupGameLog(); // 6. Вызываем метод создания блока с информационными сообщениями
 
         gui.add(gameControlPanel); // 1. Добавляем на панель интерфейса панель с кнопками
         gui.add(gameInfoPanel); // 2. Добавляем на панель интерфейса панель с информацией об игре
         gui.add(gamePlayerPanel); // 3. Добавляем на панель интерфейса панель с информацией об игроке
         gui.add(gameMonsterPanel); // 4. Добавляем на панель интерфейса панель с информацией о врагах
         gui.add(playerControllerPanel); // 5. Добавляем на панель интерфейса панель с кнопками управления игроком
-        gui.add(gameLogScrollPanel, BorderLayout.SOUTH); // 6. Добавляем на панель интерфейса панель с информационными сообщениями
+//        gui.add(gameLogScrollPanel, BorderLayout.SOUTH); // 6. Добавляем на панель интерфейса панель с информационными сообщениями
+        gui.add(log, BorderLayout.SOUTH); // 6. Добавляем на панель интерфейса панель с информационными сообщениями
     }
 
     // 1. Создаём блок кнопок запуска и выхода из игры
@@ -159,19 +165,19 @@ public class WindowApp extends JFrame {
         playerControllerPanel.add(btnRight);
     }
 
-    // 6. Создаём блок с информационными сообщениями
-    private void setupGameLog() {
-        gameLog = new JTextArea();
-        gameLogScrollPanel = new JScrollPane(gameLog);
+    // 6. Создаём блок с информационными сообщениями (вынес в класс GameLog)
+//    private void setupGameLog() {
+//        gameLog = new JTextArea();
+//        gameLogScrollPanel = new JScrollPane(gameLog);
+//
+//        gameLog.setEditable(false);
+//        gameLog.setLineWrap(true);
+//    }
 
-        gameLog.setEditable(false);
-        gameLog.setLineWrap(true);
-    }
-
-    // Метод позволяющий отправлять в Лог записи
-    void writeLogs(String msg) {
-        gameLog.append(msg + "\n");
-    }
+    // Метод позволяющий отправлять в Лог записи (вынес в класс GameLog)
+//    void writeLogs(String msg) {
+//        gameLog.append(msg + "\n");
+//    }
 
     // Настройки окна
     private void setupWin() {
