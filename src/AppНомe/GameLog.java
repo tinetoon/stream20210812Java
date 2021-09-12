@@ -1,5 +1,7 @@
 package AppНомe;
 
+import App.GameWindow;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,8 +13,8 @@ import java.awt.*;
 
 public class GameLog extends JScrollPane {
 
-    private JScrollPane gameLogScrollPanel;
     private JTextArea gameLog;
+    private JScrollPane gameLogScrollPanel;
 
     // Конструктор для создания панели с полем для информационных сообщений
     GameLog() {
@@ -30,4 +32,9 @@ public class GameLog extends JScrollPane {
     public void writeLogs(String msg) {
         gameLog.append(msg + "\n");
     }
+
+    // Метод позволяющий отправлять в Лог записи
+//    public static void writeLogs2(String msg) {
+//        GameWindow.gameLog.append(msg + "\n");
+//    }
 }

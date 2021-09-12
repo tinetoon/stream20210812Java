@@ -11,7 +11,15 @@ import java.awt.*;
 
 public class GameMap extends JPanel {
 
-    GameMap() {
+    private WindowApp gameWindow; // Ссылка на окно, в котором происходит отрисовка окна с картой
+
+    GameMap(WindowApp gameWindow) {
+        this.gameWindow = gameWindow; // назначение переменной в данном приватном классе окна отрисовки с класса WindowApp
         setBackground(Color.black);
+    }
+
+    // Метод старта игры на карте по команде с кнопки "Старт"
+    void startGame() {
+        gameWindow.writeLogs("Start Game");
     }
 }
