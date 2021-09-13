@@ -18,14 +18,8 @@ public class Player extends Fighters {
     public Player(String name) {
         super("Player");
         this.playerName = name;
-        this.healthPoint = 100;
+        this.healthPoint = Tools.randomValue(valueMin, valueMax);
         this.attackPoint = Tools.randomValue(valueMin, valueMax);
-    }
-
-    // Метод для установки координат игрока
-    public void setCoordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
     }
 
     // Метод передвижения игрока
@@ -44,11 +38,6 @@ public class Player extends Fighters {
                     this.y -=1;
                     break;
             }
-    }
-
-    // Метод атаки игроком врагов
-    public void attack() {
-
     }
 
     // Гетер на имя игрока

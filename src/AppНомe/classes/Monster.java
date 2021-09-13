@@ -10,15 +10,28 @@ import AppНомe.Tools;
 
 public class Monster extends Fighters {
 
+    private int maxHealthPoint;
+    private int maxAttackPoint;
     private int valueMin = 50;
     private int valueMax = 80;
 
     public static int number = 0;
 
+    // Создаём конструктор для врагов
     public Monster()  {
         super("Monster");
         this.healthPoint = Tools.randomValue(valueMin, valueMax);
         this.attackPoint = Tools.randomValue(valueMin, valueMax);
+        this.maxHealthPoint = healthPoint;
+        this.maxAttackPoint = attackPoint;
         number++;
+    }
+
+    // Геттеры на очки здоровья и атаки
+    public int getMaxHealthPoint() {
+        return maxHealthPoint;
+    }
+    public int getMaxAttackPoint() {
+        return maxAttackPoint;
     }
 }

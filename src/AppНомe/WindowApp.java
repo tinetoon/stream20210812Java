@@ -1,6 +1,8 @@
 package AppНомe;
 
 import App.GameWindow;
+import AppНомe.classes.Monster;
+import AppНомe.classes.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -222,6 +224,22 @@ public class WindowApp extends JFrame {
     // Метод позволяющий отправлять в Лог записи (необходимо вынести в класс GameLog)
     void writeLogs(String msg) {
         gameLog.append(msg + "\n");
+    }
+
+    // Метод обновления информации в GUI игры
+    void refreshGameInfo() {
+        // Обновление полей информации об игре
+        playerName.setText("Игрок: " + map.getPlayer().getPlayerName());
+        mapSize.setText("Создана карта размером: " + map.getMapSize());
+        countMonster.setText("Создано врагов: " + Monster.number);
+
+        // Обновление полей об игроке
+        playerHealthPoint.setText("Сила игрока: " + map.getPlayer().getAttackPoint());
+        playerAttackPoint.setText("Очки здоровья игрока: " + map.getPlayer().getHealthPoint());
+
+        // Обновление полей о врагах
+        monsterHealthPoint.setText("Сила врагов: " + map.getMonster().getAttackPoint());
+        monsterAttackPoint.setText("Очки здоровья врагов: " + map.getMonster().getHealthPoint());
     }
 
     // Настройки окна

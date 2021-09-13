@@ -21,7 +21,19 @@ public class Fighters {
     // Создаём конструктор для участников битвы
     public Fighters(String type) {
         this.type = type;
+        setCoordinates(x, y);
         number++;
+    }
+
+    // Метод для установки координат игрока
+    public void setCoordinates(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // Метод атаки
+    public void attack() {
+        System.out.println("Вызван метод атаки"); // Заглушка на вывод в консоль
     }
 
     // Метод получения урона
@@ -31,7 +43,12 @@ public class Fighters {
 
     // Метод восстановления здоровья
     public void increaseHealth(int value) {
-        this.healthPoint += value;
+        this.healthPoint = value;
+    }
+
+    // Метод изменения силы атаки
+    public void decreaseAttack(int value) {
+        this.attackPoint = value;
     }
 
     // Метод уменьшающий силу в зависимости от здоровья
@@ -42,26 +59,25 @@ public class Fighters {
     }
 
     // Проверка жизни
-    public boolean isPlayerAlive() {
+    public boolean isAlive() {
         return healthPoint > 0;
     }
 
     // Гетеры на координаты
-    public int getPlayerPositionX() {
+    public int getPositionX() {
         return x;
     }
 
-    public int getPlayerPositionY() {
+    public int getPositionY() {
         return y;
     }
 
     // Гетеры на здоровье и силу
-
-    public int getPlayerHealthPoint() {
+    public int getHealthPoint() {
         return healthPoint;
     }
 
-    public int getPlayerAttackPoint() {
+    public int getAttackPoint() {
         return attackPoint;
     }
 }
