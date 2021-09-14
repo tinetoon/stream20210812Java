@@ -24,7 +24,7 @@ public class Monster extends Fighters {
         this.attackPoint = Tools.randomValue(valueMin, valueMax);
         this.maxHealthPoint = healthPoint;
         this.maxAttackPoint = attackPoint;
-        number++;
+        ++this.number;
     }
 
     // Геттеры на очки здоровья и атаки

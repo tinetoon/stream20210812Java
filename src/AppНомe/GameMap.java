@@ -22,11 +22,17 @@ public class GameMap extends JPanel {
     private Monster monster;
 
     // Переменные относящиеся к карте
-    private char[][] map;
+    private int[][] map;
     private int mapWidth;
     private int mapHeight;
     private int mapValueMin = 3;
     private int mapValueMax = 6;
+
+    private int cellWidth;
+    private int cellHeight;
+
+    private boolean isMapExist;
+    private boolean isGameStart;
 
     // Финальные поля движения
     private final int DIRECTION_MOVE_UP = 8;
@@ -35,13 +41,14 @@ public class GameMap extends JPanel {
     private final int DIRECTION_MOVE_RIGHT = 6;
 
     // Финальные поля для определения, кто занимает ячейку карты
-    private final char CELL_PLAYER = '@';
-    private final char CELL_MONSTER = '#';
-    private final char CELL_READY = '*';
+    private final int CELL_PLAYER = 1;
+    private final int CELL_MONSTER = 11;
+    private final int CELL_READY = 111;
 
     // Создаём конструктор для панели карты
     GameMap(WindowApp gameWindow) {
         this.gameWindow = gameWindow; // назначение переменной в данном приватном классе окна отрисовки с класса WindowApp
+        this.isMapExist = false; // Пока уровень не запущен карты не существует
         setBackground(Color.black);
     }
 
@@ -50,6 +57,7 @@ public class GameMap extends JPanel {
         gameWindow.writeLogs("Start Game");
         player = new Player("Mario");
         createdMap();
+        isMapExist = true; // Карта существует (см. строку 51)
         spawnPlayer();
         spawnMonster();
         gameWindow.refreshGameInfo();
@@ -59,25 +67,74 @@ public class GameMap extends JPanel {
     private void createdMap() {
         mapHeight = Tools.randomValue(mapValueMin, mapValueMax);
         mapWidth = Tools.randomValue(mapValueMin, mapValueMax);
-        map = new char[mapHeight][mapWidth];
+        map = new int[mapHeight][mapWidth];
 //        gameWindow.writeLogs("Создана карта размером: " + mapWidth + " х " + mapHeight);
         repaint();
     }
 
     // Метод отрисовки карты
     private void render(Graphics g) {
+        if (!isMapExist) {
+            return;
+        }
+
         paintMap(g);
+        paintFighters(g);
     }
 
-    // Метод рисующий карту
+    // Метод рисующий границы ячеек карты
     private void paintMap(Graphics g) {
+        int widthMe = getWidth();
+        int heightMe = getHeight();
 
+        cellWidth = widthMe / mapWidth;
+        cellHeight = heightMe / mapHeight;
+
+        g.setColor(Color.lightGray);
+
+        for (int i = 0; i < mapHeight; i++) {
+            int y = i * cellHeight;
+            g.drawLine(0, y, widthMe, y);
+        }
+
+        for (int i = 0; i < mapWidth; i++) {
+            int x = i * cellWidth;
+            g.drawLine(x, 0, x, heightMe);
+        }
+    }
+
+    // Метод рисующий игрока, врагов и пройденные ячейки
+    private void paintFighters(Graphics g) {
+        for (int y = 0; y < mapHeight; y++) {
+            for (int x = 0; x < mapWidth; x++) {
+
+                if (map[y][x] != CELL_PLAYER && map[y][x] != CELL_MONSTER) {
+                    continue;
+                }
+
+                if (map[y][x] == CELL_PLAYER) {
+                    g.setColor(Color.GREEN);
+                    g.fillRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+                }
+
+                if (map[y][x] == CELL_MONSTER) {
+                    g.setColor(Color.ORANGE);
+                    g.fillRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+                }
+
+                if (map[y][x] == CELL_READY) {
+                    g.setColor(Color.GRAY);
+                    g.fillRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+                }
+            }
+        }
     }
 
     // Размещаем игрока на карте
     private void spawnPlayer() {
         player.setCoordinates(0, 0);
         map[player.getPositionY()][player.getPositionX()] = CELL_PLAYER;
+        gameWindow.writeLogs("Координаты игрока: " + player.getPositionX() + ":" + player.getPositionY());
 //        gameWindow.writeLogs("Создан игрок с именем: " + player.getPlayerName());
 //        gameWindow.writeLogs("Очки здоровья: " + player.getHealthPoint());
 //        gameWindow.writeLogs("Очки атаки: " + player.getAttackPoint());
@@ -86,18 +143,22 @@ public class GameMap extends JPanel {
     // Размещаем врагов на карте
     private void spawnMonster() {
 
+//        Monster.number = (mapWidth + mapHeight) / 4; // Произвольная логика количества врагов
         int countMonster = (mapWidth + mapHeight) / 4; // Произвольная логика количества врагов
         int monsterPositionX;
         int monsterPositionY;
 
         for (int i = 0; i < countMonster; i++) {
             do {
+//                monsterPositionX = Tools.randomValue(0, mapWidth);
+//                monsterPositionY = Tools.randomValue(0, mapHeight);
                 monsterPositionX = Tools.random.nextInt(mapWidth);
                 monsterPositionY = Tools.random.nextInt(mapHeight);
-            } while (isMapEmpty(monsterPositionX, monsterPositionY));
+            } while (!isMapEmpty(monsterPositionX, monsterPositionY));
             map[monsterPositionY][monsterPositionX] = CELL_MONSTER;
+            monster = new Monster();
         }
-        monster = new Monster();
+        gameWindow.writeLogs("Координаты врага: " + monster.getPositionX() + ":" + monster.getPositionY());
         gameWindow.writeLogs("Создано врагов: " + countMonster);
         gameWindow.writeLogs("Количество врагов: " + Monster.number);
     }
@@ -180,7 +241,7 @@ public class GameMap extends JPanel {
 
     // Метод проверяющий ячейку карты на пустое значение
     private boolean isMapEmpty(int x, int y) {
-        return (map[y][x] != '@' && map[y][x] != '#' && map[y][x] != '*');
+        return (map[y][x] != CELL_PLAYER && map[y][x] != CELL_MONSTER && map[y][x] != CELL_READY);
     }
 
     // Метод проверки завершения игры
@@ -192,9 +253,6 @@ public class GameMap extends JPanel {
         }
         return true;
     }
-
-    // Метод отрисовки графики
-
 
     @Override
     protected void paintComponent(Graphics g) {
