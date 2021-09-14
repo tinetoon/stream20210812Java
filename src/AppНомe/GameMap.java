@@ -64,6 +64,16 @@ public class GameMap extends JPanel {
         repaint();
     }
 
+    // Метод отрисовки карты
+    private void render(Graphics g) {
+        paintMap(g);
+    }
+
+    // Метод рисующий карту
+    private void paintMap(Graphics g) {
+
+    }
+
     // Размещаем игрока на карте
     private void spawnPlayer() {
         player.setCoordinates(0, 0);
@@ -181,6 +191,15 @@ public class GameMap extends JPanel {
             }
         }
         return true;
+    }
+
+    // Метод отрисовки графики
+
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        render(g);
     }
 
     // Создаём геттер на игрока
