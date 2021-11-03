@@ -1,4 +1,7 @@
 /**
+* Задачи на циклы: https://vertex-academy.com/tutorials/ru/zadachi-na-cikly-v-java/
+* Задачи на массивы: https://vertex-academy.com/tutorials/ru/zadachi-na-massivy-v-java/
+* Задачи на методы: https://vertex-academy.com/tutorials/ru/zadachi-na-metody-java/
 * 01 Простейшие задачи на циклы - Часть 1
 * 1.1 Необходимо вывести на экран числа от 1 до 5.
 * На экране должно быть: 1 2 3 4 5
