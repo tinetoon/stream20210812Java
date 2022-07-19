@@ -6,6 +6,7 @@ public class Calculator {
 
     private static Double x;
     private static Double y;
+    private static char inf = '\u221E';
     private static Double result;
     private static Scanner consoleInput;
 
@@ -23,8 +24,16 @@ public class Calculator {
         System.out.println("X - Y = " + (x - y));
         System.out.println("X * Y = " + (x * y));
         if (y == 0) {
-            System.out.println("Деление на ноль не реализованно в данном калькуляторе.");
-        } else {
+            if (x < 0) {
+                System.out.println("X / Y = -" + inf);
+            } else {
+                if (x == 0) {
+                    System.out.println("X / Y = н/а");
+                } else {
+                    System.out.println("X / Y = " + inf);
+                }
+            }
+        }  else {
             System.out.println("X / Y = " + (x / y));
         }
     }
